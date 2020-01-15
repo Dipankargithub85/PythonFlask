@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-16">
+        <div class="content-section">
+          <fieldset class="form-group">
+    <legend class="border-bottom mb-4">{{legend}}</legend>
+      <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('download')}}">Download</a>
+      </div>
+     <div class="panel">
+    <div class="table-bordered table-responsive text-center">
+      <table class="table table-bordered" style="border: 1px solid #ddd !important;">
+           <thead class="thead-dark">
+
+           <tr>
+                <th scope="col">UserName</th>
+                <th scope="col">PhoneNumber</th>
+                <th scope="col">PlotNumber</th>
+                <th scope="col">Registration Date</th>
+                <th scope="col">ReceiptNumber</th>
+                <th scope="col">Amount</th>
+                <th scope="col">AmountStartDate</th>
+                <th scope="col">AmountEndDate</th>
+                <th scope="col">TotalMonth</th>
+                <th scope="col">Donation</th>
+           </tr>
+            </thead>
+
+        {% for UserDetails in UserDetails %}
+          {% if 'sadmin' not in UserDetails.Username %}
+          {% if UserDetails.Date_created %}
+                {%  set regdate = (UserDetails.Date_created|string)[0:11]%}
+
+           {% endif%}
+
+          {% if UserDetails.StartDate %}
+                {%  set stdate = (UserDetails.StartDate|string)[0:11]%}
+          {% endif %}
+
+          {% if UserDetails.EndDate %}
+                {%  set eddate = (UserDetails.EndDate|string)[0:11] %}
+
+            {% endif %}
+
+          {% if UserDetails.ReceiptNo %}
+                {%  set rcno = UserDetails.ReceiptNo %}
+          {% endif %}
+
+
+
+           {% if UserDetails.Amount %}
+                {%  set amt = UserDetails.Amount %}
+            {% endif %}
+
+          {% if not UserDetails.Amount %}
+                {%  set amt = "0" %}
+            {% endif %}
+
+
+           {% if UserDetails.TotalMonth %}
+                {%  set totmon = UserDetails.TotalMonth %}
+           {% endif %}
+
+          {% if not UserDetails.TotalMonth %}
+                {%  set totmon = "0" %}
+           {% endif %}
+
+           {% if UserDetails.Donation  %}
+                {%  set dod = UserDetails.Donation %}
+            {% endif %}
+
+
+             <tbody>
+             <tr>
+
+                <td>{{ UserDetails.Username }}</td>
+                <td>{{ UserDetails.PhoneNumber }}</td>
+                <td>{{ UserDetails.PlotNumber }}</td>
+                <td>{{regdate}}</td>
+                <td>{{ rcno}} </td>
+                <td>{{ amt }}</td>
+                <td>{{ stdate}}</td>
+                <td>{{eddate}}</td>
+                <td>{{ totmon }}</td>
+                <td>{{ dod }}</td>
+
+            </tr>
+    </tbody>
+         {% endif %}
+        {% endfor %}
+    </table>
+    </div>
+              </div>
+
+     </fieldset>
+    </div>
+    </div>
+</div>
+
+{% endblock content %}
